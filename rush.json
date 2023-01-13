@@ -335,6 +335,10 @@
     {
       "packageName": "kiosk",
       "projectFolder": "apps/frontend/kiosk"
+    },
+    {
+      "packageName": "api",
+      "projectFolder": "apps/backend/api"
     }
   ]
 }
