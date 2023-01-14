@@ -1,13 +1,18 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import { kioskRoutes } from './routes/kiosk';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
 
+app.use(express.json())
+
+app.use('/kiosk', kioskRoutes);
+
 app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+  res.send('Welcome');
 });
 
 app.listen(port, () => {
