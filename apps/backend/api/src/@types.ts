@@ -1,8 +1,13 @@
-export interface Kiosk {
-  id: string;
-  serialKey: string;
-  description: string;
-  isKioskClosed: boolean;
-  storeOpensAt: Date;
-  storeClosesAt: Date;
+export interface KioskType {
+  id: String | undefined;
+  serialKey: String| undefined;
+  description: String| undefined;
+  isKioskClosed: Boolean| undefined;
+  storeOpensAt: Date| undefined;
+  storeClosesAt: Date| undefined;
+}
+
+export interface State {
+  openKiosk(): void;
+  closeKiosk(): void;
 }
