@@ -1,41 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
 import { kioskListState } from "../../atoms/kioskListAtom";
-import { AlertParams, KioskType } from "../../@types";
+import { CheckProps, FormProps, KioskType, Meridiem, TimePickerProps } from "../../@types";
 import { currentKioskState } from "../../atoms/currentKioskAtom";
 import moment from "moment";
 import Alert from "../common/Alert";
-
-interface CheckCallback {
-  (enabled: boolean): void;
-}
-
-interface TimePickerCallback {
-  (time: Date): void;
-}
-
-interface FormCallback {
-  (kiosk: KioskType, isEditing: boolean): void;
-}
-
-interface FormProps {
-  callback: FormCallback;
-  alert?: AlertParams;
-}
-
-interface CheckProps {
-  enabled: Boolean;
-  labels: string[];
-  callback: CheckCallback;
-}
-
-interface TimePickerProps {
-  label: string;
-  callback: TimePickerCallback;
-  defaultValue: Date;
-}
-
-type Meridiem = "AM" | "PM";
 
 const TimePicker: React.FC<TimePickerProps> = ({
   label,
@@ -142,8 +111,8 @@ const Check: React.FC<CheckProps> = ({ enabled, labels, callback }) => {
 };
 
 const Form: React.FC<FormProps> = ({ callback, alert }) => {
-  const [currentId, setCurrentId] = useRecoilState(currentKioskState);
-  const [kiosks, setKiosks] = useRecoilState(kioskListState);
+  const [currentId] = useRecoilState(currentKioskState);
+  const [kiosks] = useRecoilState(kioskListState);
 
   const [id, setId] = useState<String>("");
   const [serialKey, setSerialKey] = useState<String>("");

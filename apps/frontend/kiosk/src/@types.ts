@@ -37,3 +37,42 @@ export interface AlertParams {
 export type AlertColorTypes = "blue" | "red" | "green" | "yellow";
 
 export type ViewType = "list" | "crud";
+
+export interface CheckCallback {
+  (enabled: boolean): void;
+}
+
+export interface TimePickerCallback {
+  (time: Date): void;
+}
+
+export interface FormCallback {
+  (kiosk: KioskType, isEditing: boolean): void;
+}
+
+export interface FormProps {
+  callback: FormCallback;
+  alert?: AlertParams;
+}
+
+export interface CheckProps {
+  enabled: Boolean;
+  labels: string[];
+  callback: CheckCallback;
+}
+
+export interface TimePickerProps {
+  label: string;
+  callback: TimePickerCallback;
+  defaultValue: Date;
+}
+
+export type Meridiem = "AM" | "PM";
+
+export interface CardStatsProps {
+  statSubtitle: string;
+  statTitle: string;
+  statDescripiron: string;
+  statIconName: string;
+  statIconColor: string;
+}

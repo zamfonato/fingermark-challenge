@@ -1,12 +1,6 @@
-interface Props {
-  statSubtitle: string;
-  statTitle: string;
-  statDescripiron: string;
-  statIconName: string;
-  statIconColor: string;
-}
+import { CardStatsProps } from "../../@types";
 
-const CardStats: React.FC<Props> = ({
+const CardStats: React.FC<CardStatsProps> = ({
   statSubtitle,
   statTitle,
   statDescripiron,
