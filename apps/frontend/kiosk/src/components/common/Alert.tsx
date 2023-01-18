@@ -1,55 +1,40 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { AlertColorTypes, AlertParams } from "../../@types";
 
 const Alert: React.FC<AlertParams> = ({ type, text }) => {
-  const preText = useMemo(() => {
+  const render = useMemo((): JSX.Element => {
+    let jsx = <></>;
     switch (type) {
-      case "danger": {
-        return "Error";
-      }
-      case "warning":
-      case "success":
-      case "info": {
-        return type.charAt(0).toUpperCase() + type.slice(1);
-      }
-    }
-  }, [type]);
-
-  const colors = useMemo(() => {
-    let color: AlertColorTypes = "green";
-    switch (type) {
-      case "danger": {
-        color = "red";
-        break;
-      }
-      case "warning": {
-        color = "yellow";
-        break;
-      }
       case "success": {
-        color = "green";
+        jsx = (
+          <div
+            className={`p-4 mb-4 text-sm rounded-lg dark:bg-gray-800 text-green-700 bg-green-100 dark:text-green-400`}
+            role="alert"
+          >
+            <span className="font-medium">
+              {type.charAt(0).toUpperCase() + type.slice(1)}
+            </span>{" "}
+            {text}
+          </div>
+        );
         break;
       }
-      case "info": {
-        color = "blue";
+      case "danger": {
+        jsx = (
+          <div
+            className={`p-4 mb-4 text-sm rounded-lg dark:bg-gray-800 text-red-700 bg-red-100 dark:text-red-400`}
+            role="alert"
+          >
+            <span className="font-medium">Error</span> {text}
+          </div>
+        );
         break;
       }
     }
-    return `text-${color}-700 bg-${color}-100 dark:text-${color}-400`;
-  }, [type]);
+    return jsx;
+  }, [type, text]);
 
-  const jsx = useMemo(() => {
-    return (
-      <div
-        className={`p-4 mb-4 text-sm ${colors} rounded-lg dark:bg-gray-800 `}
-        role="alert"
-      >
-        <span className="font-medium">{preText}</span> {text}
-      </div>
-    );
-  }, [colors, preText, text]);
-
-  return jsx;
+  return render;
 };
 
 export default Alert;
