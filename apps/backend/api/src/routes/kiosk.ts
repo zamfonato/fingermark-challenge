@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import { getKiosk } from "../middleware/kiosk";
 import { Kiosk } from "../models/KioskModel";
 import KioskCache from "../cache/Kiosks";
+import { v4 as uuidv4 } from "uuid";
 
 const kioskRoutes = Router();
 
@@ -28,12 +29,12 @@ kioskRoutes.delete("/:id", getKiosk, async (req, res) => {
     return res.status(404).send({ message: "Kiosk not found" });
   }
   try {
-    const {id} = res.locals.kiosk
+    const { id } = res.locals.kiosk;
     Kiosk.model
       .deleteOne({ id })
-      .then((result: any) => {        
-        if (result.deletedCount > 0) {          
-          KioskCache.getInstance().delete(id)
+      .then((result: any) => {
+        if (result.deletedCount > 0) {
+          KioskCache.getInstance().delete(id);
           res.json({ message: `Deleted Kiosk ${res.locals.kiosk.id}` });
         }
       })
@@ -47,14 +48,10 @@ kioskRoutes.delete("/:id", getKiosk, async (req, res) => {
   }
 });
 
-/*
-
-*/
-
 // Insert a new one
 kioskRoutes.post("/", getKiosk, async (req: Request, res: Response) => {
+  let { id } = req.body
   const {
-    id,
     serialKey,
     description,
     isKioskClosed,
@@ -62,9 +59,11 @@ kioskRoutes.post("/", getKiosk, async (req: Request, res: Response) => {
     storeClosesAt,
   } = req.body;
   const { kiosk } = res.locals;
-  if (kiosk && Number(kiosk.id) === Number(id)) {
+  
+  if (kiosk) {
     res.status(400).json({ message: "Cannot perform update like this" });
   } else {
+    id = uuidv4()
     try {
       const newKiosk = {
         id,
@@ -75,7 +74,7 @@ kioskRoutes.post("/", getKiosk, async (req: Request, res: Response) => {
         storeClosesAt,
       };
       await new Kiosk.model(newKiosk).save();
-      KioskCache.getInstance().add(newKiosk)
+      KioskCache.getInstance().add(newKiosk);
       res.status(201).json(newKiosk);
     } catch (err) {
       res
@@ -114,12 +113,13 @@ kioskRoutes.patch("/:id", getKiosk, async (req, res) => {
   const updatedKiosk = kiosk;
   const filter = { id: kiosk.id };
 
+  
   try {
     Kiosk.model
-      .updateOne(filter, updatedKiosk)
-      .then((result: any) => {  
-        KioskCache.getInstance().update(updatedKiosk)      
-        res.status(201).json(updatedKiosk);
+    .updateOne(filter, updatedKiosk)
+    .then((result: any) => {        
+        KioskCache.getInstance().update(updatedKiosk);
+        res.status(200).json(updatedKiosk);
       })
       .catch((err: any) => {
         if (err) {

@@ -6,7 +6,7 @@ const FIELDS =
   "id serialKey description isKioskClosed storeOpensAt storeClosesAt";
 
 const KioskSchema = new mongoose.Schema({
-  id: Number,
+  id: String,
   serialKey: String,
   description: String,
   isKioskClosed: Boolean,
@@ -31,7 +31,7 @@ const customMethods = {
       return kiosk;
     });
   },
-  async findKioskById(id: number) {
+  async findKioskById(id: string) {
     return await model.findOne({ id }, FIELDS);
   },
 };

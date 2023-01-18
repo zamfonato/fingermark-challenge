@@ -2,6 +2,7 @@ import { KioskType } from "../@types";
 import { Kiosk } from "../models/KioskModel";
 
 class KioskCache {
+  
   private static instance: KioskCache;
   private cache: KioskType[] = [];
 
@@ -20,22 +21,30 @@ class KioskCache {
 
   add(item: KioskType) {
     this.cache.push(item);
-    this.log();
+    //this.log();
   }
 
   update(newItem: KioskType) {
-    const newList = this.cache.map((current) => {
-      if (Number(current.id) === Number(newItem.id)) return newItem;
-    });
-    if (newList) this.cache = newList as KioskType[];
-    this.log();
+    try {
+      const newList = this.cache.map((current) => {        
+        if (current.id === newItem.id) {
+          return newItem;
+        } else {
+          return current;
+        }
+      });
+      if (newList) this.cache = newList as KioskType[];
+      //this.log();
+    } catch (error) {
+      console.log("cache update error", error);
+    }
   }
 
-  delete(id: number) {
+  delete(id: string) {    
     this.cache = this.cache.filter((current) => {
-      if (Number(current.id) !== id) return current;
+      if (current.id !== id) return current;
     });
-    this.log();
+    //this.log();
     return this.cache;
   }
 

@@ -1,8 +1,8 @@
 import { State } from "../@types";
 
 class OpenState implements State {
-  private context: Kiosk;
-  constructor(context: Kiosk) {
+  private context: KioskFSM;
+  constructor(context: KioskFSM) {
     this.context = context;
   }
   openKiosk() {
@@ -16,8 +16,8 @@ class OpenState implements State {
 }
 
 class ClosedState implements State {
-  private context: Kiosk;
-  constructor(context: Kiosk) {
+  private context: KioskFSM;
+  constructor(context: KioskFSM) {
     this.context = context;
   }
   openKiosk() {
@@ -30,7 +30,7 @@ class ClosedState implements State {
   }
 }
 
-class Kiosk {
+class KioskFSM {
     private state: State;
     public openState: State;
     public closedState: State;

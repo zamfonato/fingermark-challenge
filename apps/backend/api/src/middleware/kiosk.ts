@@ -5,8 +5,8 @@ import { Kiosk } from "../models/KioskModel";
 
 export const getKiosk: RequestHandler = async (req, res, next) => {
   try {
-    const id = !req.body.id ? Number(req.params.id) : Number(req.body.id);
-    const item = await Kiosk.findKioskById(id)    
+    const id = !req.body.id ? req.params.id : req.body.id;
+    const item = await Kiosk.findKioskById(id)        
     if (item) {
       const kiosk: KioskType = {
         id: item.id,
