@@ -15,7 +15,7 @@ import { kioskListState } from "../../atoms/kioskListAtom";
 import moment from "moment";
 import Alert from "../common/Alert";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Title: React.FC<TitleProps> = ({ children }) => {
   return (
@@ -140,10 +140,10 @@ const KioskTable = () => {
         );
       }
     };
-    deleteKiosk();
+    if (confirm("Are you sure you want to delete this item?")) deleteKiosk();
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get(`${BASE_URL}kiosk`);
       setKiosks(result.data);

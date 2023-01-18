@@ -2,10 +2,14 @@ import { useRecoilState } from "recoil";
 import { currentAdminViewState } from "../../atoms/currentAdminViewAtom";
 import Form from "../../components/admin/Form";
 import axios from "axios";
-import { AlertParams, KioskType, ServerCrudResponse } from "../../@types";
+import {
+  AlertParams,
+  KioskType,
+  ServerCrudResponse,
+} from "../../@types";
 import { useState } from "react";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function Crud() {
   const [, setView] = useRecoilState(currentAdminViewState);
@@ -15,17 +19,20 @@ function Crud() {
     setView("list");
   };
 
-  const handleSubmit = (kiosk: KioskType, isEditing: boolean) => {    
+  const handleSubmit = (
+    kiosk: KioskType,
+    isEditing: boolean    
+  ) => {
     const submit = async () => {
       let url = `${BASE_URL}kiosk`;
       if (isEditing) url = url + `/${kiosk.id}`;
-      try {        
+      try {
         const result = (
           isEditing
             ? await axios.patch(url, kiosk)
             : await axios.post(url, kiosk)
         ) as ServerCrudResponse;
-        if (result.data.id) {          
+        if (result.data.id) {
           const text = isEditing ? "kiosk edited!" : "kiosk created!";
           setAlert({
             type: "success",
@@ -43,28 +50,12 @@ function Crud() {
         });
       }
     };
-
-    if (kiosk.serialKey.trim() === "") {
-      setAlert({
-        type: "danger",
-        text: "Serial key cannot be empty",
-      });
-      return;
-    }
-
-    if (kiosk.description.trim() === "") {
-      setAlert({
-        type: "danger",
-        text: "Description cannot be empty",
-      });
-      return;
-    }
-
     submit();
   };
 
   return (
     <>
+
       <div className="flex justify-end mt-4 mb-4">
         <button
           onClick={handleBack}

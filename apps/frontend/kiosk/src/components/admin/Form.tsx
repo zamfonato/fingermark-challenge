@@ -1,7 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
 import { kioskListState } from "../../atoms/kioskListAtom";
-import { CheckProps, FormProps, KioskType, Meridiem, TimePickerProps } from "../../@types";
+import {
+  CheckProps,
+  FormProps,
+  KioskType,
+  Meridiem,
+  TimePickerProps,
+} from "../../@types";
 import { currentKioskState } from "../../atoms/currentKioskAtom";
 import moment from "moment";
 import Alert from "../common/Alert";
@@ -120,7 +126,6 @@ const Form: React.FC<FormProps> = ({ callback, alert }) => {
   const [isKioskClosed, setIsKioskClosed] = useState<Boolean>(false);
   const [storeOpensAt, setStoreOpensAt] = useState<Date>(new Date());
   const [storeClosesAt, setStoreClosesAt] = useState<Date>(new Date());
-
   const [isEditing, setEditing] = useState<boolean>();
 
   useEffect(() => {
@@ -134,7 +139,7 @@ const Form: React.FC<FormProps> = ({ callback, alert }) => {
       setDescription(k.description);
       setIsKioskClosed(k.isKioskClosed);
       setStoreOpensAt(k.storeOpensAt);
-      setStoreClosesAt(k.storeClosesAt);
+      setStoreClosesAt(k.storeClosesAt);      
     }
   }, []);
 
@@ -196,7 +201,7 @@ const Form: React.FC<FormProps> = ({ callback, alert }) => {
                   storeOpensAt,
                   storeClosesAt,
                 };
-                const edit = isEditing ? true : false;
+                const edit = isEditing?.valueOf() ? true : false;
                 callback(kiosk, edit);
               }}
               className="bg-emerald-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -224,7 +229,7 @@ const Form: React.FC<FormProps> = ({ callback, alert }) => {
                     }}
                     type="text"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    defaultValue={isEditing ? serialKey.toString() : ""}
+                    value={serialKey.toString()}
                   />
                 </div>
               </div>
@@ -245,7 +250,7 @@ const Form: React.FC<FormProps> = ({ callback, alert }) => {
                     onChange={({ target: { value } }) => {
                       setDescription(value);
                     }}
-                    defaultValue={isEditing ? description.toString() : ""}
+                    value={description.toString()}
                     rows={4}
                   ></textarea>
                 </div>

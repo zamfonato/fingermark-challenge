@@ -14,7 +14,7 @@ export interface TableProps {
 }
 
 export interface ServerCrudResponse {
-  data: { message: string, id?:string };
+  data: { message: string; id?: string };
 }
 
 export interface ThProps {
