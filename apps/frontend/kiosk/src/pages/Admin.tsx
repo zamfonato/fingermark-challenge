@@ -7,11 +7,9 @@ import Sidebar from "../components/common/Sidebar";
 import Footer from "../components/common/Footer";
 import List from "../views/admin/List";
 import Crud from "../views/admin/Crud";
-import { useEffect } from "react";
 
 const Admin = () => {
-  const [view] = useRecoilState(currentAdminViewState);
-  useEffect(()=>{console.log('admin')})
+  const [view] = useRecoilState(currentAdminViewState);  
   return (
     <>
       <Sidebar />

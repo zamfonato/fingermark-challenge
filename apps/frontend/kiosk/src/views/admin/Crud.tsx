@@ -19,8 +19,7 @@ function Crud() {
     const submit = async () => {
       let url = `${BASE_URL}kiosk`;
       if (isEditing) url = url + `/${kiosk.id}`;
-      try {
-        console.log(kiosk)
+      try {        
         const result = (
           isEditing
             ? await axios.patch(url, kiosk)
